@@ -13,17 +13,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.payload.ref }}
-          repository: ${{ github.event.payload.ref }}
+          fetch-depth: 0  # Fetch all history for all branches
 
       - name: Configure Git
         run: |
           git config user.name "MergerBot"
           git config user.email "merger@bot.com"
 
+      - name: Fetch all branches
+        run: git fetch origin
+
+      - name: Checkout int branch
+        run: git checkout int
+
       - name: Merge main into int
         run: |
-          git fetch origin
-          git checkout int
           git merge --no-ff main -m "Merge commit from main to int"
-          git push          
+          git push
