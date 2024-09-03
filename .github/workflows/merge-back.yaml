@@ -1,0 +1,29 @@
+name: Merge Main to Int
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.payload.ref }}
+          repository: ${{ github.event.payload.ref }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "MergerBot"
+          git config user.email "merger@bot.com"
+
+      - name: Merge main into int
+        run: |
+          git fetch origin
+          git checkout int
+          git merge --no-ff main -m "Merge commit from main to int"
+          git push          
