@@ -25,5 +25,5 @@ jobs:
         run: |
           git fetch origin
           git checkout int
-          git merge --no-ff main -m "Merge commit from main to int"
+          git merge --no-ff main -m "Merge back updates from main to int"
           git push origin int
